@@ -52,6 +52,7 @@ namespace hurrydocgo
   public:
     static bool EnumFile(const std::string &g_input_path, std::vector<std::string> *file_list)
     {
+      std::cout << g_input_path << std::endl;
       namespace fs = std::filesystem;
       // 输入文件路径类
       fs::path entry_path(g_input_path);
