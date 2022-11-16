@@ -1,12 +1,17 @@
+#pragma once
 #include "../preprocessor/preprocessor.hpp"
+#include "../searcher/searcher.h"
+#include <memory>
 
 namespace hurrydocgo
 {
     class Controller
     {
     public:
-        Controller() {}
+        Controller(): m_searcher(std::make_shared<Searcher>()) {}
+
         ~Controller() {}
+
         void Init()
         {
             BuildPreProcessor();
@@ -14,11 +19,6 @@ namespace hurrydocgo
         }
 
     private:
-        
-        void BuildSearcher()
-        {
-
-        }
 
         void BuildPreProcessor()
         {
@@ -58,5 +58,13 @@ namespace hurrydocgo
             }
             std::cout << "There are " << ans << " html files in total..." << std::endl;
         }
+
+        void BuildSearcher()
+        {
+            m_searcher->Init(g_output_path);
+        }
     };
+
+    public:
+        std::shared_ptr<Searcher> m_searcher;
 } // namespace end

@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include <vector>
@@ -6,7 +7,20 @@
 
 namespace hurrydocgo
 {
+  // 待处理输入文件的路径
+  const static std::string g_input_path = "../data/input";
 
+  // 输出文件的路径
+  const static std::string g_output_path = "../data/output/raw_input";
+
+  // html后缀常量
+  const static std::string HTML = ".html";
+
+  // title起始标签
+  const static std::string TITLE_BEGIN_LABEL = "<title>";
+
+  // title结束标签
+  const static std::string TITLE_END_LABEL = "</title>";
   typedef std::vector<Weight> InvertedList;
 
   struct DocInfo

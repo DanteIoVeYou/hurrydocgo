@@ -2,10 +2,6 @@
 #include <algorithm>
 namespace hurrydocgo{
 
-
-
-
-
   bool Searcher::Init(const std::string& input_path) {
     return index->Build(input_path);
   }
@@ -72,7 +68,6 @@ namespace hurrydocgo{
       description[description.size() - 3] = '.';
       return description;
     }
-
-
   }
+
 } // namespace end
