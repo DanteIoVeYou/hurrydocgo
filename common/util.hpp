@@ -4,6 +4,7 @@
 #include <vector>
 #include <unordered_map>
 #include <fstream>
+#include <boost/algorithm/string.hpp>
 
 namespace hurrydocgo
 {
@@ -99,8 +100,8 @@ namespace hurrydocgo
       return true;
     }
 
-    // static void Split(const std::string& input, const std::string& delimiter, std::vector<std::string>* output) {
-    //   boost::split(*output, input, boost::is_any_of(delimiter), boost::token_compress_off);
-    // }
+    static void Split(const std::string& input, const std::string& delimiter, std::vector<std::string>* output) {
+      boost::split(*output, input, boost::is_any_of(delimiter), boost::token_compress_off);
+    }
   };
 } // namespace end

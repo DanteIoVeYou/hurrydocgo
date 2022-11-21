@@ -1,6 +1,7 @@
 #pragma once
 #include "../preprocessor/preprocessor.hpp"
 #include "../searcher/searcher.h"
+#include "../third_party/cpp-httplib/httplib.h"
 #include <memory>
 
 namespace hurrydocgo
@@ -8,7 +9,7 @@ namespace hurrydocgo
     class Controller
     {
     public:
-        Controller(): m_searcher(std::make_shared<Searcher>()) {}
+        Controller() : m_searcher(std::make_shared<Searcher>()) {}
 
         ~Controller() {}
 
@@ -16,10 +17,10 @@ namespace hurrydocgo
         {
             BuildPreProcessor();
             BuildSearcher();
+            BuildQueryService();
         }
 
     private:
-
         void BuildPreProcessor()
         {
             // enumerate urls
@@ -64,8 +65,28 @@ namespace hurrydocgo
             // 初始化构建索引
             m_searcher->Init(g_output_path);
         }
+
+        void BuildQueryService()
+        {
+            using namespace httplib;
+            Server server;
+            server.Get("/searcher", [&searcher](const Request &req, Response &resp) {
+                (void)req;
+                if(!req.has_param("query")) {
+                  resp.set_content("Invalid Paramenter", "text/plain; charset=utf-8");
+                }
+                string query = req.get_param_value("query");
+                string results;
+                m_searcher.Search(query, &results);
+                resp.set_content(results, "application/json; charset=utf-8"); 
+            });
+            // set static resources path
+            server.set_base_dir("../wwwroot");
+            // 3.Start Server
+            server.listen("0.0.0.0", 10002);
+        }
     };
 
-    public:
-        std::shared_ptr<Searcher> m_searcher;
+public:
+    std::shared_ptr<Searcher> m_searcher;
 } // namespace end
