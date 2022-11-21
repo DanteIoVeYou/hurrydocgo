@@ -6,6 +6,11 @@ wget https://github.com/yanyiwu/cppjieba/archive/refs/heads/master.zip
 unzip master.zip 
 mv cppjieba-master cppjieba
 rm -rf master.zip
+# download limonp
+wget https://github.com/yanyiwu/limonp/archive/refs/heads/master.zip
+unzip master.zip 
+mv limonp-master/include/limonp cppjieba/include/cppjieba
+rm -rf master.zip
 # download cpp-httplib
 wget https://github.com/yhirose/cpp-httplib/archive/refs/heads/master.zip
 unzip master.zip
