@@ -12,7 +12,7 @@ unzip master.zip
 mv cpp-httplib-master cpp-httplib
 rm -rf master.zip
 # download jsoncpp
-sudo yum install jsoncpp-devel
+sudo yum install jsoncpp-devel -y
 # download boost lib
 sudo yum install boost -y
 sudo yum install boost-devel -y
