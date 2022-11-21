@@ -7,6 +7,9 @@
 
 namespace hurrydocgo
 {
+  // 构建索引进度条的长度
+  const static size_t PROCESS_BAR_LENGTH = 102;
+
   // 待处理输入文件的路径
   const static std::string g_input_path = "../data/input";
 
@@ -21,6 +24,8 @@ namespace hurrydocgo
 
   // title结束标签
   const static std::string TITLE_END_LABEL = "</title>";
+
+  // 倒排拉链
   typedef std::vector<Weight> InvertedList;
 
   struct DocInfo
@@ -37,6 +42,31 @@ namespace hurrydocgo
     int weight;
     std::string word;
   };
+
+  void ProcessBar(int64_t line_amount, int64_t doc_id) {
+    char pb[PROCESS_BAR_LENGTH] = {0};
+    char state[4] = {'-', '\\', '|', '/'};
+    pb[0] = '[';
+    pb[PROCESS_BAR_LENGTH - 1] = ']';
+    int64_t mark_amount = (doc_id + 2) * 100 / line_amount;
+    for(int i = 1; i <= mark_amount; i++) {
+      pb[i] = '#';
+    }
+    for(int i = 0; i < PROCESS_BAR_LENGTH; i++) {
+      if(pb[i] != 0) {
+        cout << pb[i];
+      }
+      else {
+        cout << " ";
+      }
+    }
+    cout << " [%" << mark_amount << "] [" << state[mark_amount % 4] << "]";
+    if(mark_amount == 100) {
+      sleep(1);
+    }
+    std::fflush(stdout);
+    cout << '\r';
+  }
 
   const static size_t PROCESS_BAR_LENGTH = 102;
   const char *const DICT_PATH = "../third_party/cppjieba/dict/jieba.dict.utf8";

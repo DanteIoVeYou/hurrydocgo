@@ -61,6 +61,7 @@ namespace hurrydocgo
 
         void BuildSearcher()
         {
+            // 初始化构建索引
             m_searcher->Init(g_output_path);
         }
     };

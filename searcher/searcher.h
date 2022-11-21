@@ -6,7 +6,7 @@
 #include <vector>                                  
 #include <unordered_map>      
 #include <algorithm>
-#include "../third_party/jsoncpp/include/json/json.h"
+#include <jsoncpp/json/json.h>
 #include "../index/index.h"
                                                      
 
@@ -14,7 +14,7 @@ namespace hurrydocgo{
   class Searcher {
     private:
 
-      Index* index;
+      Index* m_index;
 
     public:
 

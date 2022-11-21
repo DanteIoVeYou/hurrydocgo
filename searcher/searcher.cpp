@@ -3,16 +3,19 @@
 namespace hurrydocgo{
 
   bool Searcher::Init(const std::string& input_path) {
-    return index->Build(input_path);
+    return m_index->Build(input_path);
   }
+
   bool Searcher::Search(const std::string& query, std::string* output) {
     // 1.word segment
     vector<string> tokens;
     index->CutWord(query, &tokens);
     // 2.trigger
     vector<Weight> all_token_result;
-    for(string word : tokens) {
-      boost::to_lower(word);
+    for(const std::string& word : tokens) {
+      std::stirng lower_word;
+      std::transform(word.begin(), word.end(), lower_word,begin(), ::tolower);
+      // boost::to_lower(word);
       auto* inverted_list = index->GetInvertedList(word);
       if(!inverted_list) {
         // the word is not found
@@ -33,11 +36,11 @@ namespace hurrydocgo{
       results.append(result);
     }
 
-
     Json::FastWriter writer;
     *output = writer.write(results);
     return true;
   }
+
   std::string Searcher::GenerateDescription(const std::string& content, const std::string& word) {
     // word as center ,find 60(or other) bytes before and 160(or other) bytes after
     // if less than 60 bytes before, start from 0
@@ -45,12 +48,12 @@ namespace hurrydocgo{
     
     size_t first_pos = content.find(word);
     size_t begin = 0;
-    if(begin == string::npos) {
+    if(begin == std::string::npos) {
       // word not found
       if(content.size() < 160) {
         return content;
       }
-      string description =  content.substr(0, 160);
+      std::string description =  content.substr(0, 160);
       description[description.size() - 1] = '.';
       description[description.size() - 2] = '.';
       description[description.size() - 3] = '.';
@@ -62,7 +65,7 @@ namespace hurrydocgo{
       return content.substr(begin);
     }
     else {
-      string description =  content.substr(begin, 160);
+      std::string description =  content.substr(begin, 160);
       description[description.size() - 1] = '.';
       description[description.size() - 2] = '.';
       description[description.size() - 3] = '.';

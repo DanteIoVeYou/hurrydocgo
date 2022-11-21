@@ -2,51 +2,28 @@
 #include <algorithm>
 namespace hurrydocgo{
 
-  const static size_t PROCESS_BAR_LENGTH = 102;
 
   Index::Index()
-    : jieba(DICT_PATH, HMM_PATH, USER_DICT_PATH, IDF_PATH, STOP_WORD_PATH){}
+    : m_jieba(DICT_PATH, HMM_PATH, USER_DICT_PATH, IDF_PATH, STOP_WORD_PATH){}
 
-  void ProcessBar(int64_t line_amount, int64_t doc_id) {
-    char pb[PROCESS_BAR_LENGTH] = {0};
-    char state[4] = {'-', '\\', '|', '/'};
-    pb[0] = '[';
-    pb[PROCESS_BAR_LENGTH - 1] = ']';
-    int64_t mark_amount = (doc_id + 2) * 100 / line_amount;
-    for(int i = 1; i <= mark_amount; i++) {
-      pb[i] = '#';
-    }
-    for(int i = 0; i < PROCESS_BAR_LENGTH; i++) {
-      if(pb[i] != 0) {
-        cout << pb[i];
-      }
-      else {
-        cout << " ";
-      }
-    }
-    cout << " [%" << mark_amount << "] [" << state[mark_amount % 4] << "]";
-    if(mark_amount == 100) {
-      sleep(1);
-    }
-    std::fflush(stdout);
-    cout << '\r';
-  }
 
   const DocInfo* Index::GetDocInfo(int64_t doc_id) {
 
-    if(doc_id < 0 || doc_id > forward_index.size()) {
+    if(doc_id < 0 || doc_id > m_forward_index.size()) {
       return nullptr;
     }
-    return &forward_index[doc_id];
+    return &m_forward_index[doc_id];
 
   }
 
   const InvertedList* Index::GetInvertedList(const std::string& key) {
-    unordered_map<string, InvertedList>::iterator it = inverted_index.find(key);
-    if(it == inverted_index.end()) {
+
+    unordered_map<string, InvertedList>::iterator it = m_inverted_index.find(key);
+    if(it == m_inverted_index.end()) {
       return nullptr;
     }
     return &it->second;
+
   }
 
   bool Index::Build(const std::string& input_path) {
@@ -61,11 +38,17 @@ namespace hurrydocgo{
 
     // get number of lines in line 
     std::ifstream tmpfile(input_path.c_str());
+    int64_t line_amount = std::count(std::istreambuf_iterator<char>(tmpfile), std::istreambuf_iterator<char>(), '\n');
+    std::cout << "line count: " << line_amount << std::endl;
+
+    std::ifstream tmpfile1(input_path.c_str());
+    line_amount = 0;
     string tmpline;
-    int64_t line_amount = 0;
-    while(std::getline(tmpfile, tmpline)) {
+    while(std::getline(tmpfile1, tmpline)) {
       line_amount++;
     }
+    std::cout << "line count2: " << line_amount << std::endl;
+
     string line;
     while(std::getline(file, line)) {
 
@@ -79,7 +62,6 @@ namespace hurrydocgo{
       BuildInverted(*doc_info);
       // print process bar
       ProcessBar(line_amount, (*doc_info).doc_id);
-      
     }
     
 
@@ -93,19 +75,19 @@ namespace hurrydocgo{
   DocInfo* Index::BuildForward(const std::string& line) {
     vector<string> tokens;
     // 1.Split raw_input with "\3"
-    common::Util::Split(line, "\3", &tokens);
+    Util::Split(line, "\3", &tokens);
     if(tokens.size() != 3) {
       // Split failed if string is not consisted of 3 strings
       return nullptr;
     }
     // 2.put token into DocInfo 
     DocInfo doc_info;
-    doc_info.doc_id = forward_index.size();
+    doc_info.doc_id = m_forward_index.size();
     doc_info.title = tokens[0];
     doc_info.url = tokens[1];
     doc_info.content = tokens[2];
-    forward_index.push_back(std::move(doc_info));
-    return &forward_index.back();
+    m_forward_index.push_back(std::move(doc_info));
+    return &m_forward_index.back();
   }
 
   void Index::BuildInverted(const DocInfo& doc_info) {
@@ -122,17 +104,20 @@ namespace hurrydocgo{
     vector<string> title_token;
     CutWord(doc_info.title, &title_token);
     //2.traversal, count frequency of title words
-    for(string word: title_token) {
-      boost::to_lower(word); // convert all character to lower
+    for(std::string word: title_token) {
+      // boost::to_lower(word); // convert all character to lower
+      std::string lower_word;
+      std::transform(word.begin(), word.end(), lower_word.begin(), ::tolower)
       ++word_cut_map[word].title_cnt;
     }
     //3.content segment
     vector<string> content_token;
     CutWord(doc_info.content, &content_token);
     //4.traversal, count frequency of content words
-    for(string word: content_token) {
-      boost::to_lower(word);
-      ++word_cut_map[word].content_cnt;
+    for(std::string word: content_token) {
+      std::string lower_word;
+      std::transform(word.begin(), word.end(), lower_word.begin(), ::tolower);
+      ++ word_cut_map[word].content_cnt;
     }
 
     //5.deal with weight
@@ -143,14 +128,14 @@ namespace hurrydocgo{
       weight.weight = 10 * word_pair.second.title_cnt + word_pair.second.content_cnt;
       weight.word = word_pair.first;
       //insert word into inverted_index
-      InvertedList& invert_list = inverted_index[word_pair.first];
+      InvertedList& invert_list = m_inverted_index[word_pair.first];
       invert_list.push_back(weight);
     }
 
   }
   
   void Index::CutWord(const std::string& input, std::vector<std::string>* output) {
-    jieba.CutForSearch(input, *output);
+    m_jieba.CutForSearch(input, *output);
   }
  
 

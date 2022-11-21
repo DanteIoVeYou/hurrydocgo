@@ -6,14 +6,9 @@ wget https://github.com/yanyiwu/cppjieba/archive/refs/heads/master.zip
 unzip master.zip 
 mv cppjieba-master cppjieba
 rm -rf master.zip
+cd ..
 # download jsoncpp
-wget https://github.com/open-source-parsers/jsoncpp/archive/refs/heads/master.zip
-unzip master.zip
-mv jsoncpp-master jsoncpp
-rm -rf master.zip
-#
-
-
+sudo yum install jsoncpp-devel
 
 # cd controller
 # make

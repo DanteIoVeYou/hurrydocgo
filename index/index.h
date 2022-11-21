@@ -7,11 +7,6 @@ namespace hurrydocgo
     class Index
     {
 
-    private:
-        std::vector<DocInfo> forward_index;
-
-        std::unordered_map<std::string, InvertedList> inverted_index;
-
     public:
         Index();
 
@@ -32,7 +27,13 @@ namespace hurrydocgo
 
         void BuildInverted(const DocInfo &doc_info);
 
-        cppjieba::Jieba jieba;
+    private:
+        std::vector<DocInfo> m_forward_index;
+
+        std::unordered_map<std::string, InvertedList> m_inverted_index;
+
+        cppjieba::Jieba m_jieba;
+
 
     };
 } // namespace end
