@@ -26,7 +26,7 @@ namespace hurrydocgo{
  
     private:
 
-      string GenerateDescription(const std::string& content, const std::string& word);
+      std::string GenerateDescription(const std::string& content, const std::string& word);
 
   };
 } // namesapce end

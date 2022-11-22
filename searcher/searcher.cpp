@@ -9,14 +9,14 @@ namespace hurrydocgo{
   bool Searcher::Search(const std::string& query, std::string* output) {
     // 1.word segment
     std::vector<std::string> tokens;
-    index->CutWord(query, &tokens);
+    m_index->CutWord(query, &tokens);
     // 2.trigger
     std::vector<Weight> all_token_result;
     for(const std::string& word : tokens) {
-      std::stirng lower_word;
-      std::transform(word.begin(), word.end(), lower_word,begin(), ::tolower);
+      std::string lower_word;
+      std::transform(word.begin(), word.end(), lower_word.begin(), ::tolower);
       // boost::to_lower(word);
-      auto* inverted_list = index->GetInvertedList(word);
+      auto* inverted_list = m_index->GetInvertedList(word);
       if(!inverted_list) {
         // the word is not found
         continue;
@@ -28,7 +28,7 @@ namespace hurrydocgo{
     // 4.pack
     Json::Value results;
     for(const auto& weight: all_token_result) {
-      const DocInfo* doc_info = index->GetDocInfo(weight.doc_id);
+      const DocInfo* doc_info = m_index->GetDocInfo(weight.doc_id);
       Json::Value result;
       result["title"] = doc_info->title;
       result["url"] = doc_info->url;

@@ -73,14 +73,14 @@ namespace hurrydocgo
         {
             using namespace httplib;
             Server server;
-            server.Get("/searcher", [&searcher](const Request &req, Response &resp) {
+            server.Get("/searcher", [this](const Request &req, Response &resp) {
                 (void)req;
                 if(!req.has_param("query")) {
                   resp.set_content("Invalid Paramenter", "text/plain; charset=utf-8");
                 }
                 string query = req.get_param_value("query");
                 string results;
-                m_searcher.Search(query, &results);
+                m_searcher->Search(query, &results);
                 resp.set_content(results, "application/json; charset=utf-8"); 
             });
             // set static resources path
@@ -88,8 +88,9 @@ namespace hurrydocgo
             // 3.Start Server
             server.listen("0.0.0.0", 10002);
         }
+    public:
+        Searcher* m_searcher;
     };
 
-public:
-    Searcher* m_searcher;
+
 } // namespace end
