@@ -18,7 +18,7 @@ namespace hurrydocgo{
 
   const InvertedList* Index::GetInvertedList(const std::string& key) {
 
-    unordered_map<string, InvertedList>::iterator it = m_inverted_index.find(key);
+    std::unordered_map<string, InvertedList>::iterator it = m_inverted_index.find(key);
     if(it == m_inverted_index.end()) {
       return nullptr;
     }
