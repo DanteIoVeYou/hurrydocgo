@@ -43,13 +43,13 @@ namespace hurrydocgo{
 
     std::ifstream tmpfile1(input_path.c_str());
     line_amount = 0;
-    string tmpline;
+    std::string tmpline;
     while(std::getline(tmpfile1, tmpline)) {
       line_amount++;
     }
     std::cout << "line count2: " << line_amount << std::endl;
 
-    string line;
+    std::string line;
     while(std::getline(file, line)) {
 
       // 2. convert each line to  DocInfo , construct ForwardIndex
@@ -73,7 +73,7 @@ namespace hurrydocgo{
 
   // use '\3' to cut title, url, content and convert to DocInfo
   DocInfo* Index::BuildForward(const std::string& line) {
-    vector<string> tokens;
+    std::vector<std::string> tokens;
     // 1.Split raw_input with "\3"
     Util::Split(line, "\3", &tokens);
     if(tokens.size() != 3) {
@@ -99,9 +99,9 @@ namespace hurrydocgo{
         :title_cnt(0)
         ,content_cnt(0){}
     };
-    unordered_map<string, WordCut> word_cut_map;
+    std::unordered_map<std::string, WordCut> word_cut_map;
     //1.title segment
-    vector<string> title_token;
+    std::vector<std::string> title_token;
     CutWord(doc_info.title, &title_token);
     //2.traversal, count frequency of title words
     for(std::string word: title_token) {
@@ -111,7 +111,7 @@ namespace hurrydocgo{
       ++word_cut_map[word].title_cnt;
     }
     //3.content segment
-    vector<string> content_token;
+    std::vector<std::string> content_token;
     CutWord(doc_info.content, &content_token);
     //4.traversal, count frequency of content words
     for(std::string word: content_token) {
