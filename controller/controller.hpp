@@ -9,9 +9,12 @@ namespace hurrydocgo
     class Controller
     {
     public:
-        Controller() : m_searcher(std::make_shared<Searcher>()) {}
+        // Controller() : m_searcher(std::make_shared<Searcher>()) {}
+        Controller(): m_searcher(new Searcher) {}
 
-        ~Controller() {}
+        ~Controller() {
+            delete m_searcher;
+        }
 
         void Init()
         {
@@ -88,5 +91,5 @@ namespace hurrydocgo
     };
 
 public:
-    std::shared_ptr<Searcher> m_searcher;
+    Searcher* m_searcher;
 } // namespace end
