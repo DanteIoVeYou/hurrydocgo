@@ -107,7 +107,7 @@ namespace hurrydocgo{
     for(std::string word: title_token) {
       // boost::to_lower(word); // convert all character to lower
       std::string lower_word;
-      std::transform(word.begin(), word.end(), lower_word.begin(), ::tolower)
+      std::transform(word.begin(), word.end(), lower_word.begin(), ::tolower);
       ++word_cut_map[word].title_cnt;
     }
     //3.content segment
