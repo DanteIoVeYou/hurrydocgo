@@ -8,6 +8,22 @@
 
 namespace hurrydocgo
 {
+
+  struct DocInfo
+  {
+    int64_t doc_id;
+    std::string title;
+    std::string url;
+    std::string content;
+  };
+
+  struct Weight
+  {
+    int64_t doc_id;
+    int weight;
+    std::string word;
+  };
+
   // 构建索引进度条的长度
   const static size_t PROCESS_BAR_LENGTH = 102;
 
@@ -29,21 +45,6 @@ namespace hurrydocgo
   // 倒排拉链
   typedef std::vector<Weight> InvertedList;
 
-  struct DocInfo
-  {
-    int64_t doc_id;
-    std::string title;
-    std::string url;
-    std::string content;
-  };
-
-  struct Weight
-  {
-    int64_t doc_id;
-    int weight;
-    std::string word;
-  };
-
   void ProcessBar(int64_t line_amount, int64_t doc_id) {
     char pb[PROCESS_BAR_LENGTH] = {0};
     char state[4] = {'-', '\\', '|', '/'};
@@ -55,21 +56,20 @@ namespace hurrydocgo
     }
     for(int i = 0; i < PROCESS_BAR_LENGTH; i++) {
       if(pb[i] != 0) {
-        cout << pb[i];
+        std::cout << pb[i];
       }
       else {
-        cout << " ";
+        std::cout << " ";
       }
     }
-    cout << " [%" << mark_amount << "] [" << state[mark_amount % 4] << "]";
+    std::cout << " [%" << mark_amount << "] [" << state[mark_amount % 4] << "]";
     if(mark_amount == 100) {
       sleep(1);
     }
     std::fflush(stdout);
-    cout << '\r';
+    std::cout << '\r';
   }
 
-  const static size_t PROCESS_BAR_LENGTH = 102;
   const char *const DICT_PATH = "../third_party/cppjieba/dict/jieba.dict.utf8";
   const char *const HMM_PATH = "../third_party/cppjieba/dict/hmm_model.utf8";
   const char *const USER_DICT_PATH = "../third_party/cppjieba/dict/user.dict.utf8";
