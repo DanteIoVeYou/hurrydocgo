@@ -8,10 +8,10 @@ namespace hurrydocgo{
 
   bool Searcher::Search(const std::string& query, std::string* output) {
     // 1.word segment
-    vector<string> tokens;
+    std::vector<std::string> tokens;
     index->CutWord(query, &tokens);
     // 2.trigger
-    vector<Weight> all_token_result;
+    std::vector<Weight> all_token_result;
     for(const std::string& word : tokens) {
       std::stirng lower_word;
       std::transform(word.begin(), word.end(), lower_word,begin(), ::tolower);

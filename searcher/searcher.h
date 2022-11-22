@@ -18,7 +18,7 @@ namespace hurrydocgo{
 
     public:
 
-      Searcher() : index(new Index()){}
+      Searcher() : m_index(new Index()){}
 
       bool Init(const std::string& input_path);
 
