@@ -61,7 +61,7 @@ namespace hurrydocgo{
       // 3. using ForwardIndex to Build Inverted Index
       BuildInverted(*doc_info);
       // print process bar
-      ProcessBar(line_amount, (*doc_info).doc_id);
+      Util::ProcessBar(line_amount, (*doc_info).doc_id);
     }
     
 
