@@ -45,30 +45,7 @@ namespace hurrydocgo
   // 倒排拉链
   typedef std::vector<Weight> InvertedList;
 
-  void ProcessBar(int64_t line_amount, int64_t doc_id) {
-    char pb[PROCESS_BAR_LENGTH] = {0};
-    char state[4] = {'-', '\\', '|', '/'};
-    pb[0] = '[';
-    pb[PROCESS_BAR_LENGTH - 1] = ']';
-    int64_t mark_amount = (doc_id + 2) * 100 / line_amount;
-    for(int i = 1; i <= mark_amount; i++) {
-      pb[i] = '#';
-    }
-    for(int i = 0; i < PROCESS_BAR_LENGTH; i++) {
-      if(pb[i] != 0) {
-        std::cout << pb[i];
-      }
-      else {
-        std::cout << " ";
-      }
-    }
-    std::cout << " [%" << mark_amount << "] [" << state[mark_amount % 4] << "]";
-    if(mark_amount == 100) {
-      sleep(1);
-    }
-    std::fflush(stdout);
-    std::cout << '\r';
-  }
+
 
   const char *const DICT_PATH = "../third_party/cppjieba/dict/jieba.dict.utf8";
   const char *const HMM_PATH = "../third_party/cppjieba/dict/hmm_model.utf8";
@@ -103,5 +80,30 @@ namespace hurrydocgo
     static void Split(const std::string& input, const std::string& delimiter, std::vector<std::string>* output) {
       boost::split(*output, input, boost::is_any_of(delimiter), boost::token_compress_off);
     }
+
+    static void ProcessBar(int64_t line_amount, int64_t doc_id) {
+      char pb[PROCESS_BAR_LENGTH] = {0};
+      char state[4] = {'-', '\\', '|', '/'};
+      pb[0] = '[';
+      pb[PROCESS_BAR_LENGTH - 1] = ']';
+      int64_t mark_amount = (doc_id + 2) * 100 / line_amount;
+      for(int i = 1; i <= mark_amount; i++) {
+        pb[i] = '#';
+      }
+      for(int i = 0; i < PROCESS_BAR_LENGTH; i++) {
+        if(pb[i] != 0) {
+          std::cout << pb[i];
+        }
+        else {
+          std::cout << " ";
+        }
+      }
+      std::cout << " [%" << mark_amount << "] [" << state[mark_amount % 4] << "]";
+      if(mark_amount == 100) {
+        sleep(1);
+      }
+      std::fflush(stdout);
+      std::cout << '\r';
+  }
   };
 } // namespace end
