@@ -13,8 +13,8 @@ namespace hurrydocgo{
     // 2.trigger
     std::vector<Weight> all_token_result;
     for(const std::string& word : tokens) {
-      std::string lower_word;
-      std::transform(word.begin(), word.end(), lower_word.begin(), ::tolower);
+      // std::string lower_word;
+      // std::transform(word.begin(), word.end(), lower_word.begin(), ::tolower);
       // boost::to_lower(word);
       auto* inverted_list = m_index->GetInvertedList(word);
       if(!inverted_list) {

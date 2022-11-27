@@ -1,3 +1,11 @@
+/*
+ * @Description: 
+ * @version: 
+ * @Author: @imdanteking
+ * @Date: 2022-11-25 12:17:36
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-11-26 01:23:56
+ */
 #pragma once
 #include <iostream>                                           
 #include <stdint.h>
@@ -6,7 +14,7 @@
 #include <vector>                                  
 #include <unordered_map>      
 #include <algorithm>
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 #include "../index/index.h"
                                                      
 
@@ -18,8 +26,8 @@ namespace hurrydocgo{
 
     public:
 
-      Searcher() : m_index(new Index()){}
-
+      Searcher() : m_index(new Index){}
+      
       bool Init(const std::string& input_path);
 
       bool Search(const std::string& query, std::string* output);
