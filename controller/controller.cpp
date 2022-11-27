@@ -9,12 +9,24 @@
 namespace hurrydocgo
 {
 
+        /**
+         * @brief Construct a new Controller:: Controller object
+         * 
+         */
         Controller::Controller(): m_searcher(new Searcher) {}
 
+        /**
+         * @brief Destroy the Controller:: Controller object
+         * 
+         */
         Controller::~Controller() {
             delete m_searcher;
         }
 
+        /**
+         * @brief Init controller 
+         * 
+         */
         void Controller::Init()
         {
             BuildPreProcessor();
@@ -22,6 +34,10 @@ namespace hurrydocgo
             BuildQueryService();
         }
 
+        /**
+         * @brief build forword_index, inverted_index and searcher
+         * 
+         */
         void Controller::BuildPreProcessor()
         {
             // enumerate urls
@@ -61,12 +77,20 @@ namespace hurrydocgo
             std::cout << "There are " << ans << " html files in total..." << std::endl;
         }
 
+        /**
+         * @brief build http server and provide search service
+         * 
+         */
         void Controller::BuildSearcher()
         {
             // 初始化构建索引
             m_searcher->Init(g_output_path);
         }
 
+        /**
+         * @brief build http server and provide search service
+         * 
+         */
         void Controller::BuildQueryService()
         {
             std::cout << "start server..." << std::endl;

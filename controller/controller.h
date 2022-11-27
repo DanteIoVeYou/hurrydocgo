@@ -1,11 +1,3 @@
-/*
- * @Author: error: git config user.name && git config user.email & please set dead value or install git
- * @Date: 2022-11-24 19:43:38
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-11-27 13:38:56
- * @FilePath: /hurrydocgo/controller/controller.hpp
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 #pragma once
 #include "../preprocessor/preprocessor.h"
 #include "../searcher/searcher.h"
@@ -13,17 +5,49 @@
 
 namespace hurrydocgo
 {
+    /**
+     * @brief controller module
+     * 
+     */
     class Controller
     {
     public:
+        /**
+         * @brief Construct a new Controller object
+         * 
+         */
         Controller();
+        /**
+         * @brief Destroy the Controller object
+         * 
+         */
         ~Controller();
+        /**
+         * @brief Init controller 
+         * 
+         */
         void Init();
     private:
+        /**
+         * @brief preprocess html files
+         * 
+         */
         void BuildPreProcessor(); 
+        /**
+         * @brief build forword_index, inverted_index and searcher
+         * 
+         */
         void BuildSearcher();
+        /**
+         * @brief build http server and provide search service
+         * 
+         */
         void BuildQueryService();
     public:
+        /**
+         * @brief searcher object pointer
+         * 
+         */
         Searcher* m_searcher;
     };
 } // namespace end
