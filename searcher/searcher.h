@@ -7,34 +7,62 @@
  * @LastEditTime: 2022-11-26 01:23:56
  */
 #pragma once
-#include <iostream>                                           
 #include <stdint.h>
 #include <unistd.h>
-#include <string>
-#include <vector>                                  
-#include <unordered_map>      
-#include <algorithm>
 #include <json/json.h>
 #include "../index/index.h"
-                                                     
 
 namespace hurrydocgo{
-  class Searcher {
-    private:
 
-      Index* m_index;
+  /**
+   * @brief searcher module 
+   * 
+   */
+  class Searcher {
 
     public:
+      /**
+       * @brief Construct a new Searcher object
+       * 
+       */
+      Searcher();
 
-      Searcher() : m_index(new Index){}
-      
+      /**
+       * @brief initialize searcher by building index
+       * 
+       * @param input_path 
+       * @return true 
+       * @return false 
+       */
       bool Init(const std::string& input_path);
 
+      /**
+       * @brief search pages by query word
+       * 
+       * @param query 
+       * @param output 
+       * @return true 
+       * @return false 
+       */
       bool Search(const std::string& query, std::string* output);
  
     private:
 
+      /**
+       * @brief Generate descirption for each page
+       * 
+       * @param content 
+       * @param word 
+       * @return std::string 
+       */
       std::string GenerateDescription(const std::string& content, const std::string& word);
 
+    private:
+
+      /**
+       * @brief index object pointer
+       * 
+       */
+      Index* m_index;
   };
 } // namesapce end

@@ -1,11 +1,31 @@
 #include "searcher.h"
-#include <algorithm>
 namespace hurrydocgo{
 
+  /**
+   * @brief Construct a new Searcher:: Searcher object
+   * 
+   */
+  Searcher::Searcher() : m_index(new Index){}
+
+  /**
+   * @brief initialize searcher by building index
+   * 
+   * @param input_path 
+   * @return true 
+   * @return false 
+   */
   bool Searcher::Init(const std::string& input_path) {
     return m_index->Build(input_path);
   }
 
+  /**
+   * @brief search pages by query word
+   * 
+   * @param query 
+   * @param output 
+   * @return true 
+   * @return false 
+   */
   bool Searcher::Search(const std::string& query, std::string* output) {
     // 1.word segment
     std::vector<std::string> tokens;
@@ -41,6 +61,13 @@ namespace hurrydocgo{
     return true;
   }
 
+  /**
+   * @brief Generate descirption for each page
+   * 
+   * @param content 
+   * @param word 
+   * @return std::string 
+   */
   std::string Searcher::GenerateDescription(const std::string& content, const std::string& word) {
     // word as center ,find 60(or other) bytes before and 160(or other) bytes after
     // if less than 60 bytes before, start from 0
