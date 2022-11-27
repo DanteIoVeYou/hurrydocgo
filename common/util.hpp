@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <fstream>
 #include <memory>
+#include <algorithm>
 #include <boost/algorithm/string.hpp>
 
 namespace hurrydocgo
