@@ -1,12 +1,19 @@
 #include "index.h"
-#include <algorithm>
 namespace hurrydocgo{
 
-
+  /**
+   * @brief Construct a new Index object
+   * 
+   */
   Index::Index()
     : m_jieba(DICT_PATH, HMM_PATH, USER_DICT_PATH, IDF_PATH, STOP_WORD_PATH){}
 
-
+  /**
+   * @brief Get the Doc Info object by doc_id
+   * 
+   * @param doc_id 
+   * @return const DocInfo, pointer to use NULL to indicate invalid situation
+   */
   const DocInfo* Index::GetDocInfo(int64_t doc_id) {
 
     if(doc_id < 0 || doc_id > m_forward_index.size()) {
@@ -16,6 +23,12 @@ namespace hurrydocgo{
 
   }
 
+  /**
+   * @brief Get the Inverted List object by key
+   * 
+   * @param key 
+   * @return const InvertedList* 
+   */
   const InvertedList* Index::GetInvertedList(const std::string& key) {
 
     std::unordered_map<std::string, InvertedList>::iterator it = m_inverted_index.find(key);
@@ -26,6 +39,13 @@ namespace hurrydocgo{
 
   }
 
+  /**
+   * @brief  Build the Index
+   * 
+   * @param input_path 
+   * @return true 
+   * @return false 
+   */
   bool Index::Build(const std::string& input_path) {
 
     // 1. read raw_input file, which is a line txt that means each line stands for a html file 
@@ -65,13 +85,18 @@ namespace hurrydocgo{
     }
     
 
+
     std::cout << "Finish Build Index..." << std::endl;
     file.close();
     return true;
   }
 
-
-  // use '\3' to cut title, url, content and convert to DocInfo
+  /**
+   * @brief Build forward index, using '\3' to cut title, url, content and convert to DocInfo
+   * 
+   * @param line 
+   * @return DocInfo* 
+   */
   DocInfo* Index::BuildForward(const std::string& line) {
     std::vector<std::string> tokens;
     // 1.Split raw_input with "\3"
@@ -90,6 +115,11 @@ namespace hurrydocgo{
     return &m_forward_index.back();
   }
 
+  /**
+   * @brief Build inverted index
+   * 
+   * @param doc_info 
+   */
   void Index::BuildInverted(const DocInfo& doc_info) {
     struct WordCut{
       int title_cnt;
@@ -134,9 +164,14 @@ namespace hurrydocgo{
 
   }
   
+  /**
+   * @brief Cut word by jieba
+   * 
+   * @param input 
+   * @param output 
+   */
   void Index::CutWord(const std::string& input, std::vector<std::string>* output) {
     m_jieba.CutForSearch(input, *output);
   }
  
-
 } // namespace end
