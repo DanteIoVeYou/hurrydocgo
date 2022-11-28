@@ -3,7 +3,7 @@
  * @version: 
  * @Author: @imdanteking
  * @Date: 2022-11-24 19:43:38
- * @LastEditTime: 2022-11-26 01:24:02
+ * @LastEditTime: 2022-11-28 16:26:31
  */
 #include "controller.h"
 namespace hurrydocgo
@@ -93,16 +93,17 @@ namespace hurrydocgo
      */
     void Controller::BuildQueryService()
     {
-        std::cout << "start server..." << std::endl;
+        std::cout << "starting server..." << std::endl;
         using namespace httplib;
         Server server;
+        std::cout << "server is running on http://127.0.0.1:10002" << std::endl;
         server.Get("/searcher", [this](const Request &req, Response &resp) {
             (void)req;
             if(!req.has_param("query")) {
               resp.set_content("Invalid Paramenter", "text/plain; charset=utf-8");
             }
-		sttring query = req.get_param_value("query");
-		sttring results;
+		    sttring query = req.get_param_value("query");
+		    sttring results;
             m_searcher->Search(query, &results);
             resp.set_content(results, "application/json; charset=utf-8"); 
         });
