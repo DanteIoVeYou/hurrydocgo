@@ -3,7 +3,7 @@
  * @version: 
  * @Author: @imdanteking
  * @Date: 2022-11-24 19:43:38
- * @LastEditTime: 2022-11-28 16:26:31
+ * @LastEditTime: 2022-11-28 16:38:13
  */
 #include "controller.h"
 namespace hurrydocgo
@@ -102,8 +102,8 @@ namespace hurrydocgo
             if(!req.has_param("query")) {
               resp.set_content("Invalid Paramenter", "text/plain; charset=utf-8");
             }
-		    sttring query = req.get_param_value("query");
-		    sttring results;
+		    string query = req.get_param_value("query");
+		    string results;
             m_searcher->Search(query, &results);
             resp.set_content(results, "application/json; charset=utf-8"); 
         });
