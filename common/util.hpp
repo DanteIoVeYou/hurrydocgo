@@ -106,6 +106,6 @@ namespace hurrydocgo
       }
       std::fflush(stdout);
       std::cout << '\r';
-  }
+    }
   };
 } // namespace end

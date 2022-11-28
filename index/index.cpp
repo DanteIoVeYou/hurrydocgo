@@ -59,16 +59,7 @@ namespace hurrydocgo{
     // get number of lines in line 
     std::ifstream tmpfile(input_path.c_str());
     int64_t line_amount = std::count(std::istreambuf_iterator<char>(tmpfile), std::istreambuf_iterator<char>(), '\n');
-    std::cout << "line count: " << line_amount << std::endl;
-
-    std::ifstream tmpfile1(input_path.c_str());
-    line_amount = 0;
-    std::string tmpline;
-    while(std::getline(tmpfile1, tmpline)) {
-      line_amount++;
-    }
-    std::cout << "line count2: " << line_amount << std::endl;
-
+    // get each line
     std::string line;
     while(std::getline(file, line)) {
 
@@ -136,8 +127,8 @@ namespace hurrydocgo{
     //2.traversal, count frequency of title words
     for(std::string word: title_token) {
       // boost::to_lower(word); // convert all character to lower
-      std::string lower_word;
-      std::transform(word.begin(), word.end(), lower_word.begin(), ::tolower);
+      // std::string lower_word;
+      // std::transform(word.begin(), word.end(), lower_word.begin(), ::tolower);
       ++word_cut_map[word].title_cnt;
     }
     //3.content segment
@@ -145,8 +136,8 @@ namespace hurrydocgo{
     CutWord(doc_info.content, &content_token);
     //4.traversal, count frequency of content words
     for(std::string word: content_token) {
-      std::string lower_word;
-      std::transform(word.begin(), word.end(), lower_word.begin(), ::tolower);
+      // std::string lower_word;
+      // std::transform(word.begin(), word.end(), lower_word.begin(), ::tolower);
       ++ word_cut_map[word].content_cnt;
     }
 
