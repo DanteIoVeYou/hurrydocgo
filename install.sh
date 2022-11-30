@@ -1,28 +1,45 @@
-rm -rf third_party
-mkdir third_party
-cd third_party
+#!/bin/bash
+###
+ # @Description: Auto install script 
+ # @Author: @imdanteking
+ # @Date: 2022-11-27 01:45:54
+ # @LastEditTime: 2022-11-30 10:50:24
+### 
+CreateThirdPartyDir() {
+    rm -rf third_party
+    mkdir third_party
+    cd third_party
+}
+
+DownloadFromGithub() { 
+    URL=${1}
+    NAME=${2}
+    BRANCH="${URL}-master"
+    wget ${URL}
+    unzip master.zip
+    mv ${BRANCH} ${NAME}
+    rm -rf master.zip
+}
+
+# create third_party directory
+CreateThirdPartyDir
 # download cppjieba
-wget https://github.com/yanyiwu/cppjieba/archive/refs/heads/master.zip
-unzip master.zip 
-mv cppjieba-master cppjieba
-rm -rf master.zip
+DownloadFromGithub https://github.com/yanyiwu/cppjieba/archive/refs/heads/master.zip cppjieba
 # download limonp
-wget https://github.com/yanyiwu/limonp/archive/refs/heads/master.zip
-unzip master.zip 
-mv limonp-master/include/limonp cppjieba/include/cppjieba
-rm -rf master.zip limonp-master
+DownloadFromGithub https://github.com/yanyiwu/limonp/archive/refs/heads/master.zip limonp
+mv limonp/include/limonp cppjieba/include/cppjieba
+rm -rf master.zip limonp
 # download cpp-httplib
-wget https://github.com/yhirose/cpp-httplib/archive/refs/heads/master.zip
-unzip master.zip
-mv cpp-httplib-master cpp-httplib
-rm -rf master.zip
+DownloadFromGithub https://github.com/yhirose/cpp-httplib/archive/refs/heads/master.zip cpp-httplib
 # download jsoncpp
 sudo yum install jsoncpp-devel -y
 # download boost lib
 sudo yum install boost -y
 sudo yum install boost-devel -y
 sudo yum install boost-doc -y
+# compile source files
 cd ..
 cd controller
 make
+# execute
 ./hurrydocgo
